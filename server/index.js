@@ -22,7 +22,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.send("Hello from Mortis Team");
 });
 
 app.get("/protected", authenticateToken, (req, res) => {
