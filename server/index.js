@@ -1,12 +1,15 @@
 require("dotenv").config();
 
-const config = require("./config.json");
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("./utilities");
-const port = 8000
+
+const port = process.env.PORT || 8000;
+const mongoUri = process.env.connectionString;
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
 
 const app = express();
 
@@ -19,9 +22,13 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-    res.send("Hello");
+  res.send("Hello");
+});
+
+app.get("/protected", authenticateToken, (req, res) => {
+  res.send("This is a protected route");
 });
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
+  console.log(`Server running on port ${port}`);
+});
