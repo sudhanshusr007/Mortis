@@ -1,38 +1,14 @@
 require("dotenv").config();
-
-const mongoose = require("mongoose");
-const express = require("express");
-const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("./utilities");
 const User = require("./models/user.model");
-
+const {connect} = require('./connect')
 const port = process.env.PORT || 8000;
-const mongoUri = process.env.connectionString;
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+const {app} = require('./app');
+const express = require("express");
 
-const app = express();
-
-mongoose
-  .connect(process.env.connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.error("Could not connect to MongoDB", err);
-    process.exit(1); // Exit the process if connection fails
-  });
-
-app.use(express.json());
-
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+connect();
 
 app.get("/", (req, res) => {
   res.send("Hello from Mortis Team");
@@ -85,7 +61,7 @@ app.post("/create-account", async (req, res) => {
 
     const accessToken = jwt.sign(
       { user: user._id },
-      process.env.ACCESS_TOKEN_SECRET,
+      accessTokenSecret,
       {
         expiresIn: "36000m",
       }
@@ -124,7 +100,7 @@ app.post("/login", async (req, res) => {
 
   if (userInfo.email == email && userInfo.password == password) {
     const user = { user: userInfo };
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    const accessToken = jwt.sign(user, accessTokenSecret, {
       expiresIn: "36000m",
     });
     return res.json({
