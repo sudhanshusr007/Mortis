@@ -1,17 +1,28 @@
+// Require dotenv and configure it to load environment variables
 require("dotenv").config();
-const { MongoClient } = require('mongodb');
-const uri = process.env.MONGO_URI;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-async function connect() {
-    try {
-        await client.connect();
-        console.log("Connected to MongoDB Atlas");
-    } catch (err) {
-        console.error("Error connecting to MongoDB Atlas", err);
-    }
-}
+const mongoose = require("mongoose");
 
-module.exports={
-    connect,
-}
+// Function to connect to MongoDB
+const connect = async () => {
+  try {
+    // Retrieve MongoDB URI from environment variables
+    const uri = process.env.MONGO_URI;
+
+    // Connect to MongoDB
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error("Could not connect to MongoDB", err);
+    process.exit(1); // Exit the process if connection fails
+  }
+};
+
+// Export the connect function so that it can be used elsewhere
+module.exports = {
+  connect,
+};

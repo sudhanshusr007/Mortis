@@ -1,4 +1,4 @@
-const { Message } = require("../models/message.model");
+const Message  = require("../models/message.model");
 
 const sendMessage = async (req, res, next) => {
     const { firstName, lastName, email, mobileNumber, message } = req.body;

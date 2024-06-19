@@ -1,9 +1,8 @@
+// message.router.js
 const express = require("express");
+const router = express.Router();
 const { sendMessage } = require("../controllers/message.controller");
 
-const router = express.Router();
+router.post('/send', sendMessage);
 
-router.post('/send', sendMessage); // Assuming sendMessage is a function defined in message.controller
-
-module.exports = router; // Export the router directly
-
+module.exports = router;

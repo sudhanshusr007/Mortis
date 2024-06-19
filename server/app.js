@@ -4,8 +4,8 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
-const { messageRouter } = require('./routers/message.router');
-
+const messageRouter = require('./routers/message.router'); // Correct import
+const { connect } = require('./connect');
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -30,11 +30,10 @@ app.use(
 );
 
 // Routes
-
-
+app.use('/api/v1/message', messageRouter); // Correct usage of messageRouter
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-module.exports ={app}
+module.exports = {app}

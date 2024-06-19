@@ -20,14 +20,19 @@ const messageSchema = new Schema({
     mobileNumber: {
         type: String,
         required: true,
-        minLength: [10, 'Mobile number must be 10 digits long'],
-        maxLength: [10, 'Mobile number must be 10 digits long'],
+        validate: {
+            validator: function(v) {
+                return /^[0-9]{10}$/.test(v); // Custom validator for 10-digit mobile number
+            },
+            message: props => `${props.value} is not a valid 10-digit mobile number!`
+        }
     },
     message: {
         type: String,
         required: true,
-        minLength: [10, 'Message must be at least 10 characters long'],
+        minlength: [10, 'Message must be at least 10 characters long'],
     },
 });
 
+// Export the Mongoose model based on the schema
 module.exports = mongoose.model('Message', messageSchema);
