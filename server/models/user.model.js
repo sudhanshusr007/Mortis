@@ -19,7 +19,6 @@ const userSchema = new Schema({
     },
     mobileNumber: {
         type: String, // Change type to String
-        required: true,
         minLength: [10, 'Provide a valid mobile number'], // Corrected typo in minLength
         maxLength: [10, 'Provide a valid mobile number'] // Corrected typo in maxLength
     },
