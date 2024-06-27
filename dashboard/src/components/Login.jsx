@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import axios from "axios";
-import "../App.css"; // Ensure you import the CSS file if it's not already imported
+import "../App.css"; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
