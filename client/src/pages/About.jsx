@@ -1,8 +1,21 @@
 import React from 'react'
+import Banner from '../components/Banner'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+import Services from '../components/Services'
+import Package from '../components/Package'
+import Query from '../components/Query'
 
 const About = () => {
   return (
-    <div>About</div>
+    <>
+    <Navbar />
+    <Banner />
+    <Services />
+    <Package />
+    <Query />
+    <Footer />
+    </>
   )
 }
 
