@@ -7,6 +7,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Schedule from './pages/Schedule'
 import Error from './pages/Error'
+import Contact from './pages/Contact'
+import Dashboard from './pages/DashBoard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +21,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/account" element={<Dashboard />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/error" element={<Error />} />
         </Routes>

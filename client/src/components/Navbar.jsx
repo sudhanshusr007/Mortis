@@ -1,30 +1,98 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Logo from "../assets/Mortiz.png";
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import Logo from "../assets/Mortiz.png"
+const navigation = [
+  { name: 'Home', href: '/', current: false },
+  { name: 'Contact', href: '/contact', current: false },
+  { name: 'About', href: '/about', current: false },
+]
 
-const Navbar = () => {
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+export default function Example() {
   return (
-    <div className="bg-white/100 p-2 sticky top-0 overflow-hidden h-[5rem] z-[100] ">
-      <nav>
-        <div className='flex items-center justify-between gap-4 p-3'>
-          <div className="">
-            <img src={Logo} alt="logo" className='p-2 h-[9rem] w-[9rem] md:h-auto cursor-pointer my-[-3rem]' />
+    <Disclosure as="nav" className="bg-white sticky top-0 z-50 ">
+      {({ open }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="relative flex h-16 items-center justify-between">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <DisclosureButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-green-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="absolute -inset-0.5" />
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </DisclosureButton>
+              </div>
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
+                  <img
+                    className="h-[8rem] pt-6 p-4 w-[8rem]"
+                    src={Logo}
+                    alt="Your Company"
+                  />
+                </div>
+                <div className="hidden sm:ml-6 sm:block my-12">
+                  <div className="flex space-x-4">
+                    {navigation.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={classNames(
+                          item.current ? 'bg-white text-gray-800' : 'text-gray-800 hover:bg-green-800 hover:text-white',
+                          'rounded-md px-3 py-2 text-sm font-medium',
+                        )}
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <a
+                  href="/login"
+                  className="relative h-8 w-16 rounded-xl bg-green-800 p-1 text-white hover:text-white  focus:outline-none focus:ring-2 px-3 hover:bg-gray-800 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only"></span>
+                  Login
+                </a>
+          
+
+                {/* Profile dropdown */}
+              
+              </div>
+            </div>
           </div>
-          <ul className='hidden sm:flex flex-row gap-5'>
-            <li><Link to="/" className="text-gray-500 hover:text-black">Home</Link></li>
-            <li><Link to="/schedule" className="text-gray-500 hover:text-black">Schedule</Link></li>
-            <li><Link to="/about" className="text-gray-500 hover:text-black">About</Link></li>
-          </ul>
-          <button className="bg-green-800 text-white px-4 py-2 rounded" >
-          <a href='/login'> Login</a>
-          </button>
-        </div>
-      </nav>
-    </div>
-  );
-};
 
-export default Navbar;
-
-
-
+          <DisclosurePanel className="sm:hidden">
+            <div className="space-y-1 px-2 pb-3 pt-2">
+              {navigation.map((item) => (
+                <DisclosureButton
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    item.current ? 'bg-green-800 text-white' : 'text-gray-800 hover:bg-green-800 hover:text-white',
+                    'block rounded-md px-3 py-2 text-base font-medium',
+                  )}
+                  aria-current={item.current ? 'page' : undefined}
+                >
+                  {item.name}
+                </DisclosureButton>
+              ))}
+            </div>
+          </DisclosurePanel>
+        </>
+      )}
+    </Disclosure>
+  )
+}
