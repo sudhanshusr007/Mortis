@@ -21,19 +21,29 @@ export const isAdminAuthenticated= catchAsyncErrors(async(req,res,next)=>{
     next();
 });
 
-export const isPatientAuthenticated= catchAsyncErrors(async(req,res,next)=>{
-    const token=req.cookies.patientToken;
-    if(!token){
-        return next (new ErrorHandler("Patient not authenticated!",400))
+export const isPatientAuthenticated = catchAsyncErrors(async (req, res, next) => {
+    const token = req.cookies.patientToken;
+  
+    if (!token) {
+      return next(new ErrorHandler('Patient not authenticated!', 401));
     }
-    const decoded=jwt.verify(token,process.env.JWT_SECRET_KEY);
-    req.user=await User.findById(decoded.id);
-    if(req.user.role!=="Patient"){
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      req.user = await User.findById(decoded.id);
+  
+      if (!req.user || req.user.role !== 'Patient') {
         return next(
-            new ErrorHandler(
-                `${req.user.role} not authorised for this resource!`,
-                403
-            ));
+          new ErrorHandler(
+            `${req.user ? req.user.role : 'User'} not authorized for this resource!`,
+            403
+          )
+        );
+      }
+  
+      next();
+    } catch (error) {
+      return next(new ErrorHandler('Token verification failed!', 401));
     }
-    next();
-});
+  });
+

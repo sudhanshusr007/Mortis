@@ -7,9 +7,6 @@ import Footer from '../components/Footer';
 import { FaArrowRight } from 'react-icons/fa6';
 
 const Dashboard = () => {
-  // Simulate fetching user data
- 
-
   return (
  <>
 <Navbar />

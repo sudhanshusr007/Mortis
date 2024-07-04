@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Context } from "./main";
 import ApplicationStatus from "./pages/ApplicationStatus";
 const App = () => {
-  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated, setUser ,setPatientId} = useContext(Context);
   useEffect(() => {
     const fetchUser = async () => {
       try {

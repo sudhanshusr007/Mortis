@@ -8,9 +8,10 @@ export const Context =createContext({isAuthenticated:false});
 const AppWrapper=()=>{
   const[isAuthenticated,setIsAuthenticated]=useState(false);
   const[user,setUser]=useState({});
+  const[patientId,setPatientId]=useState({});
 
 return(
-  <Context.Provider value={{isAuthenticated,setIsAuthenticated,user,setUser}}>
+  <Context.Provider value={{isAuthenticated,setIsAuthenticated,user,setUser,patientId,setPatientId}}>
  <App />
   </Context.Provider>
 );
