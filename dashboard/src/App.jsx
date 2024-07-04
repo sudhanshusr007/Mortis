@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
-import AddNewDoctor from "./components/AddNewDoctor";
+import BottomNavbar from "./components/navbar";
+import AddNewDoctor from "./components/AddNewDoctor"; 
 import Messages from "./components/Messages";
 import Doctors from "./components/Doctors";
 import axios from "axios";
@@ -38,7 +39,7 @@ const App = () => {
 
   return (
     <Router>
-      <Sidebar />
+      <BottomNavbar/>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
