@@ -2,7 +2,7 @@ import React from 'react'
 
 const Query = () => {
   return (
-<section class="bg-white">
+<section class="bg-white" id="query">
   <div class="p-8 md:p-12 lg:px-16 lg:py-24">
     <div class="mx-auto max-w-lg text-center">
       <h2 class="text-2xl font-bold text-gray-900 md:text-3xl">

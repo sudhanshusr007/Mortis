@@ -13,7 +13,6 @@ const About = () => {
     <Banner />
     <Services />
     <Package />
-    <Query />
     <Footer />
     </>
   )

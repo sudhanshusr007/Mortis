@@ -35,4 +35,6 @@ const messageSchema = new Schema({
 });
 
 // Export the Mongoose model based on the schema
-module.exports = mongoose.model('Message', messageSchema);
+// Change to ES modules syntax
+export const Message = mongoose.model('Message', messageSchema);
+
