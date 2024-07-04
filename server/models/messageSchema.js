@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const validator = require('validator'); // Import validator for email validation
+import mongoose from 'mongoose';
+import validator from 'validator'; // Import validator for email validation
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const messageSchema = new Schema({
     firstName: {
@@ -35,6 +35,4 @@ const messageSchema = new Schema({
 });
 
 // Export the Mongoose model based on the schema
-// Change to ES modules syntax
 export const Message = mongoose.model('Message', messageSchema);
-

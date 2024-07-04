@@ -37,15 +37,14 @@ const AddNewAdmin = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return <Navigate to={"/login"} />;
-  }
+  // if (!isAuthenticated) {
+  //   return <Navigate to={"/login"} />;
+  // }
 
   return (
     <section className="page">
       <section className="container form-component add-admin-form">
-      <img src="/logo.png" alt="logo" className="logo"/>
-        <h1 className="form-title">ADD NEW ADMIN</h1>
+        <h1 className="form-title">Add New Admin</h1>
         <form onSubmit={handleAddNewAdmin}>
           <div>
             <input
@@ -103,7 +102,7 @@ const AddNewAdmin = () => {
             />
           </div>
           <div style={{ justifyContent: "center", alignItems: "center" }}>
-            <button type="submit">ADD NEW ADMIN</button>
+            <button type="submit">Add New Admin</button>
           </div>
         </form>
       </section>
