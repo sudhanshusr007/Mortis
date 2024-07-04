@@ -69,13 +69,12 @@ const AddNewDoctor = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return <Navigate to={"/login"} />;
-  }
+  // if (!isAuthenticated) {
+  //   return <Navigate to={"/login"} />;
+  // }
   return (
     <section className="page">
       <section className="container add-doctor-form">
-        <img src="/logo.png" alt="logo" className="logo"/>
         <h1 className="form-title">REGISTER A NEW DOCTOR</h1>
         <form onSubmit={handleAddNewDoctor}>
           <div className="first-wrapper">
@@ -121,7 +120,6 @@ const AddNewDoctor = () => {
               />
               <input
                 type={"date"}
-                placeholder="Date of Birth"
                 value={dob}
                 onChange={(e) => setDob(e.target.value)}
               />
