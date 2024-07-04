@@ -1,25 +1,48 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import Logo from "../assets/Mortiz.png"
+import React, { useContext, useState } from 'react';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Link, useNavigate } from 'react-router-dom';
+import { Context } from '../main';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import Logo from "../assets/Mortiz.png";
+
 const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'Contact', href: '/contact', current: false },
   { name: 'About', href: '/about', current: false },
-]
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+const Navbar = () => {
+  const [show, setShow] = useState(true);
+  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  const navigateTo = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const { data } = await axios.get(`http://localhost:4000/api/v1/user/patient/logout`, { withCredentials: true });
+      toast.success(data.message);
+      setIsAuthenticated(false);
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
+  };
+
+  const gotoLogin = () => {
+    navigateTo("/login");
+  };
+
   return (
-    <Disclosure as="nav" className="bg-white sticky top-0 z-50 ">
+    <Disclosure as="nav" className="bg-white sticky top-0 z-50">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
                 <DisclosureButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-green-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
@@ -41,9 +64,9 @@ export default function Example() {
                 <div className="hidden sm:ml-6 sm:block my-12">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current ? 'bg-white text-gray-800' : 'text-gray-800 hover:bg-green-800 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium',
@@ -51,24 +74,31 @@ export default function Example() {
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a
-                  href="/login"
-                  className="relative h-8 w-16 rounded-xl bg-green-800 p-1 text-white hover:text-white  focus:outline-none focus:ring-2 px-3 hover:bg-gray-800 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-              
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only"></span>
-                  Login
-                </a>
-          
-
-                {/* Profile dropdown */}
-              
+                {isAuthenticated ? (
+                  <button
+                    className="relative h-8 w-16 rounded-xl flex items-center bg-green-800 p-1 text-white hover:text-white focus:outline-none focus:ring-2 px-3 hover:bg-gray-800 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    onClick={handleLogout}
+                  >
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only"></span>
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    className="relative h-8 w-16 rounded-xl bg-green-800 p-1 text-white hover:text-white focus:outline-none focus:ring-2 px-3 hover:bg-gray-800 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    onClick={gotoLogin}
+                  >
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only"></span>
+                    Login
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -78,8 +108,8 @@ export default function Example() {
               {navigation.map((item) => (
                 <DisclosureButton
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                  as={Link}
+                  to={item.href}
                   className={classNames(
                     item.current ? 'bg-green-800 text-white' : 'text-gray-800 hover:bg-green-800 hover:text-white',
                     'block rounded-md px-3 py-2 text-base font-medium',
@@ -94,5 +124,7 @@ export default function Example() {
         </>
       )}
     </Disclosure>
-  )
-}
+  );
+};
+
+export default Navbar;

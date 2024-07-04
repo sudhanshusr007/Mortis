@@ -1,118 +1,192 @@
-import React from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AppointmentForm = () => {
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [department, setDepartment] = useState("");
+  const [doctorFirstName, setDoctorFirstName] = useState("");
+  const [doctorLastName, setDoctorLastName] = useState("");
+  const [address, setAddress] = useState("");
+  const [hasVisited, setHasVisited] = useState(false);
+
+  const departmentsArray = [
+    "Pediatrics",
+    "Orthopedics",
+    "Cardiology",
+    "Neurology",
+    "Oncology",
+    "Radiology",
+    "Physical Therapy",
+    "Dermatology",
+    "ENT",
+  ];
+
+  const navigateTo = useNavigate();
+
+  const [doctors, setDoctors] = useState([]);
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      const { data } = await axios.get(
+        'https://mortis-2.onrender.com/api/v1/user/doctors',
+        { withCredentials: true }
+      );
+      setDoctors(data.doctors);
+      console.log(data.doctors);
+    };
+    fetchDoctors();
+  }, []);
+
+  const handleAppointment = async (e) => {
+    e.preventDefault();
+
+    try {
+      const hasVisitedBool = hasVisited; // Convert to boolean
+      const { data } = await axios.post(
+        'http://localhost:4000/api/v1/appointment/post',
+        {
+          appointment_date: appointmentDate,
+          department,
+          doctor_firstName: doctorFirstName,
+          doctor_lastName: doctorLastName,
+          address,
+          hasVisited: hasVisitedBool,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success(data.message);
+      navigateTo("/");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 ">
+    <div className="min-h-screen bg-green-100 py-16">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl sm:max-w-8xl md:max-w-5xl lg:max-w-4xl xl:max-w-3xl">
-          <h1 className="text-center text-2xl font-bold text-gray-800 sm:text-3xl">Let's get you Checked</h1>
-
-          <p className="mx-auto mt-4 max-w-md text-center  text-gray-600">
-            Fill the given online form to schedule an appointment with us. Once done, we will send you a confirmation text
+          <h1 className="text-center text-2xl font-bold text-gray-800 sm:text-3xl">
+            Let's get you Checked
+          </h1>
+          <p className="mx-auto mt-4 max-w-md text-center text-gray-600">
+            Fill the given online form to schedule an appointment with us. Once done, we will send you a confirmation text.
           </p>
-
-          <form action="#" className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 bg-white">
+          <form
+            onSubmit={handleAppointment}
+            className="mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 bg-white"
+          >
             <p className="text-center text-lg font-medium">Appointment Form</p>
 
-            {/* First Name and Last Name Side by Side */}
-            <div className="col-span-6 sm:col-span-3">
-            <label htmlFor="FirstName" className="block text-sm font-medium text-gray-700">
-              First Name
-            </label>
-
-            <input
-              type="text"
-              id="FirstName"
-              name="first_name"
-              className="size-8 mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm "
-            />
-          </div>
-
-          <div className="col-span-6  sm:col-span-3 ">
-            <label htmlFor="LastName" className="block text-sm font-medium text-gray-700 ">
-              Last Name
-            </label>
-
-            <input
-              type="text"
-              id="LastName"
-              name="last_name"
-              className="size-8 mt-1 w-full  rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-            />
-          </div>
-         
-
-            {/* Mobile Number Input */}
+            {/* Appointment Date Input */}
             <div>
-              <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-700">Mobile Number</label>
+              <label htmlFor="appointmentDate" className="block text-sm font-medium text-gray-700">Appointment Date</label>
               <input
-                type="tel"
-                id="mobileNumber"
-                className="size-7 mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                
+                type="date"
+                id="appointmentDate"
+                placeholder="Appointment Date"
+                value={appointmentDate}
+                onChange={(e) => setAppointmentDate(e.target.value)}
+                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
-            </div>
-
-            {/* Gender Selection */}
-            <div>
-              <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Sex</label>
-              <select id="sex" className="size-7 mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option>Male</option>
-                <option>Female</option>
-                <option>Transgender</option>
-              </select>
-            </div>
-
-            {/* Age Input */}
-            <div>
-              <label htmlFor="age" className="block text-sm font-medium text-gray-700">Age</label>
-              <input
-                type="number"
-                id="age"
-                className="size-7 mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
-            </div>
-
-            {/* Doctor's Name Input */}
-            <div>
-              <label htmlFor="doctorName" className="block text-sm font-medium text-gray-700">Doctor's Name</label>
-              <select id="doc_name" className="size-7 mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option>Dr Andrew James</option>
-                <option>Dr John </option>
-                <option>Dr Kate Mcadams</option>
-              </select>
             </div>
 
             {/* Department Selection */}
             <div>
               <label htmlFor="department" className="block text-sm font-medium text-gray-700">Department</label>
-              <select id="department" className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option>Surgery</option>
-                <option>Cardiology</option>
-                <option>Pediatrics</option>
-                {/* Add more options as needed */}
+              <select
+                id="department"
+                value={department}
+                onChange={(e) => {
+                  setDepartment(e.target.value);
+                  setDoctorFirstName("");
+                  setDoctorLastName("");
+                }}
+                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                <option value="">Select Department</option>
+                {departmentsArray.map((depart, index) => (
+                  <option value={depart} key={index}>{depart}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Doctor Selection */}
+            <div>
+              <label htmlFor="doctorName" className="block text-sm font-medium text-gray-700">Doctor's Name</label>
+              <select
+                id="doctorName"
+                value={`${doctorFirstName} ${doctorLastName}`}
+                onChange={(e) => {
+                  const [firstName, lastName] = e.target.value.split(" ");
+                  setDoctorFirstName(firstName);
+                  setDoctorLastName(lastName);
+                }}
+                disabled={!department}
+                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              >
+                <option value="">Select Doctor</option>
+                {doctors
+                  .filter((doctor) => doctor.doctorDepartment === department)
+                  .map((doctor, index) => (
+                    <option
+                      value={`${doctor.firstName} ${doctor.lastName}`}
+                      key={index}
+                    >
+                      {doctor.firstName} {doctor.lastName}
+                    </option>
+                  ))}
               </select>
             </div>
 
             {/* Address Text Area */}
             <div>
-              <label htmlFor="address" className=" block text-sm font-medium text-gray-700">Address</label>
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
               <textarea
                 id="address"
                 rows="3"
-                className="size-20 mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-               
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               ></textarea>
             </div>
 
+            {/* Have You Visited Checkbox */}
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="hasVisited"
+                checked={hasVisited}
+                onChange={(e) => setHasVisited(e.target.checked)}
+                className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <label htmlFor="hasVisited" className="text-sm text-gray-700">Have you visited before?</label>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
-              className="block w-full rounded-lg bg-green-800 px-5 py-3 text-sm font-medium text-white"
+              className="block w-full rounded-lg bg-green-800 px-5 py-3 text-sm font-medium text-white transition hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              Submit
+              Get Appointment
             </button>
-
           </form>
+
+          {/* View Appointment History Button */}
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => navigateTo("/application-status")}
+              className="inline-block rounded bg-gray-800 px-5 py-3 text-sm font-medium text-white transition hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              View Appointment History
+            </button>
+          </div>
         </div>
       </div>
     </div>
