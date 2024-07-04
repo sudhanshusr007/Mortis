@@ -9,13 +9,12 @@ import Doctors from "./components/Doctors";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Sidebar from "./components/Sidebar";
 import AddNewAdmin from "./components/AddNewAdmin";
 import { Context } from "./main";
 import "./App.css";
 
 const App = () => {
-  const { isAuthenticated, setIsAuthenticated, setUser } =
+  const { isAuthenticated, setIsAuthenticated,  admin, setAdmin  } =
     useContext(Context);
 
   useEffect(() => {
@@ -31,7 +30,7 @@ const App = () => {
         setAdmin(response.data.user);
       } catch (error) {
         setIsAuthenticated(false);
-        setUser({});
+        setAdmin({});
       }
     };
     fetchUser();
@@ -39,7 +38,6 @@ const App = () => {
 
   return (
     <Router>
-      <BottomNavbar/>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
@@ -48,7 +46,7 @@ const App = () => {
         <Route path="/messages" element={<Messages />} />
         <Route path="/doctors" element={<Doctors />} />
       </Routes>
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-right" />
     </Router>
   );
 };

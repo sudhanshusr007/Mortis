@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Navigate } from "react-router-dom";
+import BottomNavbar from "./navbar";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -28,6 +29,7 @@ const Messages = () => {
 
   return (
     <section className="page messages">
+      <BottomNavbar/>
       <h1>MESSAGE</h1>
       <div className="banner">
         {messages && messages.length > 0 ? (

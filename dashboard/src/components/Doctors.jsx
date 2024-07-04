@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Navigate } from "react-router-dom";
+import BottomNavbar from "./navbar";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -22,11 +23,12 @@ const Doctors = () => {
     fetchDoctors();
   }, []);
 
-  // if (!isAuthenticated) {
-  //   return <Navigate to={"/login"} />;
-  // }
+  if (!isAuthenticated) {
+    return <Navigate to={"/login"} />;
+  }
   return (
     <section className="page doctors">
+      <BottomNavbar/>
       <h1>DOCTORS</h1>
       <div className="banner">  
         {doctors && doctors.length > 0 ? (
@@ -50,9 +52,6 @@ const Doctors = () => {
                   </p>
                   <p>
                     Department: <span>{element.doctorDepartment}</span>
-                  </p>
-                  <p>
-                    NIC: <span>{element.nic}</span>
                   </p>
                   <p>
                     Gender: <span>{element.gender}</span>
