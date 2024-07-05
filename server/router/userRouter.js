@@ -1,5 +1,5 @@
 import express from "express"
-import { addNewAdmin, addNewDoctor, getAllDoctors, getUserDetails, login, logoutAdmin,logoutPatient, patientRegister } from "../controller/userController.js";
+import { addNewAdmin, addNewDoctor, doctorCount, getAllDoctors, getUserDetails, login, logoutAdmin,logoutPatient, patientRegister } from "../controller/userController.js";
 import {isAdminAuthenticated,isPatientAuthenticated} from "../middlewares/auth.js"
 
 const router =express.Router();
@@ -13,4 +13,5 @@ router.get("/patient/me",isPatientAuthenticated,getUserDetails);
 router.get("/admin/logout",isAdminAuthenticated,logoutAdmin);
 router.get("/patient/logout",isPatientAuthenticated,logoutPatient);
 router.post("/doctor/addnew",isAdminAuthenticated,addNewDoctor);
+router.get('doctor/count',isAdminAuthenticated,doctorCount)
 export default router;

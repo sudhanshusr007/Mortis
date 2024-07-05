@@ -1,3 +1,4 @@
+import { exp } from "three/examples/jsm/nodes/Nodes.js";
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../middlewares/errorMiddleware.js";
 import { User } from "../models/userSchema.js";
@@ -99,6 +100,15 @@ export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
     message: "New admin registered!",
   });
 });
+
+export const doctorCount = catchAsyncErrors(async(req,res,next)=>{
+  try {
+    const doctorCount = await User.countDocuments({ role: 'Doctor' });
+    res.status(200).json({ doctorCount });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to get doctor count' });
+  }
+})
 
 export const getAllDoctors = catchAsyncErrors(async (req, res, next) => {
   const doctors = await User.find({ role: "Doctor" });

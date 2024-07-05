@@ -137,6 +137,7 @@ const AddNewDoctor = () => {
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
+                <option value="Transgender">Transgender</option>
               </select>
               <input
                 type="password"

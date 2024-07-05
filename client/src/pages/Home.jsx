@@ -4,6 +4,7 @@ import Hero from '../components/Hero';
 import SectionR from '../components/SectionR';
 import Testimonial from '../components/Testimonial';
 import Footer from '../components/Footer';
+import UserCard from '../components/UserCard';
 
 const Home = () => {
   return (
