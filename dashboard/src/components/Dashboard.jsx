@@ -10,6 +10,7 @@ import BottomNavbar from "./navbar";
 
 const Dashboard = () => {
   const [appointments, setAppointments] = useState([]);
+  const [quote, setQuote] = useState('');
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -24,6 +25,17 @@ const Dashboard = () => {
       }
     };
     fetchAppointments();
+
+    // Fetch a motivational quote or fun fact
+    const fetchQuote = async () => {
+      try {
+        const response = await axios.get('https://api.quotable.io/random');
+        setQuote(response.data.content);
+      } catch (error) {
+        setQuote('Welcome to your dashboard!');
+      }
+    };
+    fetchQuote();
   }, []);
 
   const handleUpdateStatus = async (appointmentId, status) => {
@@ -46,23 +58,27 @@ const Dashboard = () => {
     }
   };
 
+  const getTimeBasedGreeting = () => {
+    const hours = new Date().getHours();
+    if (hours < 12) return 'Good Morning';
+    if (hours < 18) return 'Good Afternoon';
+    return 'Good Evening';
+  };
+
   const { isAuthenticated, admin } = useContext(Context);
   if (!isAuthenticated) {
     return <Navigate to={"/login"} />;
   }
+
   return (
     <>
-    <BottomNavbar/>
-      <section className="dashboard page">
+      <BottomNavbar />
+      <section className="page">
         <header className="header">
-          <h1 className="welcome">Welcome</h1>
-          <h1 className="title">
-          {admin &&
-                    `${admin.firstName} ${admin.lastName}`}{" "}
-          </h1>
+          <h1 className="greeting">{`${getTimeBasedGreeting()}, ${admin?.firstName} ${admin?.lastName}`}</h1>
+          <p className="welcome-message">Welcome to your dashboard!</p>
         </header>
         <main className="main">
-          
           <div className="stats">
             <div className="stat-card">
               <h2>Total Appointments</h2>
