@@ -14,13 +14,14 @@ import { ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "./main";
 import ApplicationStatus from "./pages/ApplicationStatus";
+import REACT_APP_API_BASE_URL from "./utils/config";
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, setUser ,setPatientId} = useContext(Context);
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/user/patient/me",
+          `${REACT_APP_API_BASE_URL}/api/v1/user/patient/me`,
           { withCredentials: true }
         );
         setIsAuthenticated(true);

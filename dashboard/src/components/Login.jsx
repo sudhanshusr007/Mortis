@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Context } from "../main";
 import axios from "axios";
 import "../App.css"; 
+import REACT_APP_API_BASE_URL from "../utils/config";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
     try {
       await axios
         .post(
-          "http://localhost:4000/api/v1/user/login",
+          `${REACT_APP_API_BASE_URL}/api/v1/user/login`,
           { email, password, role: "Admin" },
           {
             withCredentials: true,

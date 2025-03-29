@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import REACT_APP_API_BASE_URL from '../utils/config';
 
 const UserCard = () => {
   const [user, setUser] = useState(null);
@@ -9,7 +10,7 @@ const UserCard = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/api/v1/user/patient/me', { withCredentials: true });
+        const { data } = await axios.get(`${REACT_APP_API_BASE_URL}/api/v1/user/patient/me`, { withCredentials: true });
         setUser(data.user);
       } catch (error) {
         setError('Failed to fetch user details');

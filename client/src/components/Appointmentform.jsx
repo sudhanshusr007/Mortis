@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import REACT_APP_API_BASE_URL from "../utils/config";
 
 const AppointmentForm = () => {
   const [appointmentDate, setAppointmentDate] = useState("");
@@ -29,7 +30,7 @@ const AppointmentForm = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       const { data } = await axios.get(
-        'https://mortis-2.onrender.com/api/v1/user/doctors',
+        `${REACT_APP_API_BASE_URL}/api/v1/user/doctors`,
         { withCredentials: true }
       );
       setDoctors(data.doctors);
@@ -44,7 +45,7 @@ const AppointmentForm = () => {
     try {
       const hasVisitedBool = hasVisited; // Convert to boolean
       const { data } = await axios.post(
-        'http://localhost:4000/api/v1/appointment/post',
+        `${REACT_APP_API_BASE_URL}/api/v1/appointment/post`,
         {
           appointment_date: appointmentDate,
           department,

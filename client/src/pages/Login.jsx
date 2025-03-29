@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/user/login",
+        `${REACT_APP_API_BASE_URL}/api/v1/user/login`,
         { email, password, role: "Patient" },
         { withCredentials: true, headers: { "Content-Type": "application/json" } }
       );

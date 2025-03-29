@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Navigate } from "react-router-dom";
 import BottomNavbar from "./navbar";
+import REACT_APP_API_BASE_URL from "../utils/config";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -12,7 +13,7 @@ const Messages = () => {
     const fetchMessages = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/v1/message/getall",
+          `${REACT_APP_API_BASE_URL}/api/v1/message/getall`,
           { withCredentials: true }
         );
         setMessages(data.messages);

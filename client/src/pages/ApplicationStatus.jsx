@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Context } from "../main";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import REACT_APP_API_BASE_URL from "../utils/config";
 
 const ApplicationStatus = () => {
   const [appointments, setAppointments] = useState([]);
@@ -20,7 +21,7 @@ const ApplicationStatus = () => {
       setLoading(true);
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/api/v1/appointment/patient-history/${patientId}`,
+          `${REACT_APP_API_BASE_URL}/api/v1/appointment/patient-history/${patientId}`,
           { withCredentials: true }
         );
         setAppointments(data.appointments);

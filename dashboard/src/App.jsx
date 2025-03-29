@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AddNewAdmin from "./components/AddNewAdmin";
 import { Context } from "./main";
 import "./App.css";
+import REACT_APP_API_BASE_URL from "./utils/config";
 
 const App = () => {
   const { isAuthenticated, setIsAuthenticated,  admin, setAdmin  } =
@@ -21,7 +22,7 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/user/admin/me",
+          `${REACT_APP_API_BASE_URL}/api/v1/user/admin/me`,
           {
             withCredentials: true,
           }

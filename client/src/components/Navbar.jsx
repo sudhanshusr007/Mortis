@@ -6,6 +6,7 @@ import { Context } from '../main';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Logo from "../assets/Mortiz.png";
+import REACT_APP_API_BASE_URL from '../utils/config';
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -24,7 +25,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:4000/api/v1/user/patient/logout`, { withCredentials: true });
+      const { data } = await axios.get(`${REACT_APP_API_BASE_URL}/api/v1/user/patient/logout`, { withCredentials: true });
       toast.success(data.message);
       setIsAuthenticated(false);
     } catch (err) {

@@ -11,6 +11,7 @@ import { Context } from "../main";
 import { useNavigate } from "react-router-dom";
 import "../App.css"; // Add appropriate styles
 import Login from "./Login";
+import REACT_APP_API_BASE_URL from "../utils/config";
 
 const BottomNavbar = () => {
   const [show, setShow] = useState(false);
@@ -42,7 +43,7 @@ const BottomNavbar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get("http://localhost:4000/api/v1/user/admin/logout", {
+      .get(`${REACT_APP_API_BASE_URL}/api/v1/user/admin/logout`, {
         withCredentials: true,
       })
       .then((res) => {

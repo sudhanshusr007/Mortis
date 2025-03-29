@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import BottomNavbar from "./navbar";
+import REACT_APP_API_BASE_URL from "../utils/config";
 
 const AddNewAdmin = () => {
   const { isAuthenticated } = useContext(Context);
@@ -23,7 +24,7 @@ const AddNewAdmin = () => {
     try {
       await axios
         .post(
-          "http://localhost:4000/api/v1/user/admin/addnew",
+          `${REACT_APP_API_BASE_URL}/api/v1/user/admin/addnew`,
           { firstName, lastName, email, phone, dob, gender, password },
           {
             withCredentials: true,
